@@ -1,14 +1,13 @@
 {
     "name": "bot-telegram_employment_in_zaboal-s_it-studio",
-    "version": "0",
     "description": "Бот в Telegram для трудоустройства соискателей в ИТ-студию Зажигина",
     "author": "Богдан Зажигин <za.boal@vk.com>",
-    "main": "main.js",
+    "main": "app.js",
     "scripts": {
-        "start": "node main.js"
+        "start": "node app.js"
     },
     "dependencies": {
-        "sqlite": "4.1.2",
+        "sqlite3": "5.1.2",
         "telegraf": "4.11.2"
     }
 }
