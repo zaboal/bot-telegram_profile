@@ -10,7 +10,7 @@ COPY index.ts .
 
 # Требуемые переменные окружения
 # Токен бота Telegram от бота @BotFather
-ENV BOT_TOKEN=""
+ENV BOT_TOKEN="5715517585:AAFgAdmzsDokDcCEfy6hO_cI7nrsVeMTx8M"
 # Путь к базе данных внутри контейнера, монтируется из файловой системы хоста
 ENV DB_PATH="./dbase.db"
 
