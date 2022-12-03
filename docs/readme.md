@@ -1,15 +1,5 @@
-# Бот в Telegram для трудоустройства
+# Бот в Telegram для управления Личным кабинетом в ИТ-студии Зажигина
 
-Бот написан на TypeScript с помощью фреймворка [Grammy](https://www.npmjs.com/package/grammy) для Telegram API. Предназначен для запуска в контейнере Docker, файл сборки можно видеть под названием `dockerfile`. Главный метод запуска проекта — через файл Bash скрипта `start.sh` от имени администратора.
+Бот описан в [`src/bot.ts`](../src/index.ts) на [TypeScript](https://www.typescriptlang.org/docs "Документация TypeScript") с помощью фреймворка [Grammy](https://grammy.dev/guide "Документация Grammy") над [Telegram Bot API](https://core.telegram.org/bots/api "Документация Telegram Bot API"). Предназначен для запуска в контейнере [Docker](https://docs.docker.com/reference "Документация Docker") через [NodeJS](https://nodejs.org/api/ "Документация NodeJS"), файл сборки можно видеть под названием [`src/dockerfile`](../src/dockerfile). Главный метод запуска проекта — через файл [Bash](https://www.gnu.org/software/bash/manual/bash.html "Документация Bash") скрипта [`start.sh`](../start.sh) от имени администратора.
 
-На данный момент бот поддерживает только команду «`/start`» и «`/register`», отвечая первой подсказкой для пользователя на последующие действия, а на вторую, тем что команда ещё в действительности свои функции не выполняет.
-
-
-## Запуск бота
-
-Для запуска требуются 2 переменных окружения: `BOT_TOKEN`, токен бота Telegram получаемый от [BotFather](https://t.me/BotFather), и `DB_PATH`, путь к базе данных на хосте. `BOT_TOKEN` указывается в `dockerfile` на 13-й строке после «`ENV BOT_TOKEN=`», а `DB_PATH` в `start.sh` на 3-й после «…`-v`» и до «`:`…».
-
-Затем нужно запустить файл `start.sh` от имени администратора:
-```bash
-sudo bash start.sh
-```
+Официально запускается от имени [@emp_zaboal_bot](https://emp_zaboal_bot.t.me) и администрируется [Богданом](https://zaboal.t.me). Руководство по запуску описано в [`docs/start.md`](start.md).
