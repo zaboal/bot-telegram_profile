@@ -2,16 +2,18 @@ FROM node:lts-buster-slim
 
 
 WORKDIR /usr/src/app
-COPY package.json .
 
+COPY package.json .
 RUN npm install
+
 COPY bot.ts .
 
 
 # Требуемые переменные окружения
 # Токен бота Telegram от бота @BotFather
-ENV BOT_TOKEN="5715517585:AAFgAdmzsDokDcCEfy6hO_cI7nrsVeMTx8M"
+ARG BOT_TOKEN
 # Путь к базе данных внутри контейнера, монтируется из файловой системы хоста
 ENV DB_PATH="./dbase.db"
+
 
 CMD npm run start
