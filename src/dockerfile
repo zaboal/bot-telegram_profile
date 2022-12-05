@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY package.json .
 RUN npm install
 
-COPY bot.ts .
+COPY bot-telegram_zaboal-employment.ts .
 
 
 # Требуемые переменные окружения

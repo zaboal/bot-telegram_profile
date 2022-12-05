@@ -1,10 +1,10 @@
 {
     "name": "bot-telegram_zaboal-employment",
-    "version": "0.0.1",
+    "version": "alpha",
     "description": "Бот в Telegram для трудоустройства в ИТ-студию Зажигина.",
-    "main": "bot.ts",
+    "main": "bot-telegram_zaboal-employment.ts",
     "scripts": {
-        "start": "ts-node bot.ts"
+        "start": "ts-node bot-telegram_zaboal-employment.ts"
     },
     "author": "Зажигин Богдан Алексеевич <za.boal@vk.com>",
     "dependencies": {
