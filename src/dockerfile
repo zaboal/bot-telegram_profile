@@ -1,19 +1,26 @@
+# Файл сборки Docker контейнера проекта
+
+# Установка образа и рабочей директории
 FROM node:lts-buster-slim
-
-
 WORKDIR /usr/src/app
 
+
+# Установка зависимостей
 COPY package.json .
 RUN npm install
 
-COPY bot-telegram_zaboal-employment.ts .
+# Добавление оставшихся файлов проекта
+COPY tsconfig.json .
+ADD bot bot
 
 
-# Требуемые переменные окружения
-# Токен бота Telegram от бота @BotFather
+# Объявление переменных окружения
 ARG BOT_TOKEN
-# Путь к базе данных внутри контейнера, монтируется из файловой системы хоста
-ENV DB_PATH="./dbase.db"
+
+# Имена подключаемых баз данных внутри контейнера
+ENV BOT_DB_PATH="bot_db.sqlite"
+ENV ORG_DB_PATH="org_db.sqlite"
 
 
+# Запуск контейнера
 CMD npm run start

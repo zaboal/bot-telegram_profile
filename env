@@ -1,5 +1,11 @@
-# Токен Telegram Bot API получаемый от BotFather (https://t.me/BotFather)
-BOT_TOKEN="5715517585:AAFgAdmzsDokDcCEfy6hO_cI7nrsVeMTx8M"
+# Файл переменных окружения проекта
+# Настройка проекта подробно описана в docs/settings.md.
 
-# Путь к базе данных управляемой SQLite на хосте
-DB_PATH="/home/zaboal/work/organizations/zazhigin-s_it-studio/databases/local_organizational-structure.db"
+# Токен Telegram Bot API получаемый от BotFather
+BOT_TOKEN=""
+
+# Путь к базе данных SQLite бота на хосте
+BOT_DB_PATH=""
+
+# Путь к базе данных SQLite организации на хосте
+ORG_DB_PATH=""

@@ -1,17 +1,22 @@
+# Скрипт запуска проекта
+# Процедура запуска проекта подробно описана в docs/start.md.
+
 # Получение необходимых переменных окружения и вывод их в консоль
 source ./env;
 
-echo -e                                                                                 \
-    "Полученные переменные окружения:\n"                                                \
-    "\t\033[1mтокен Telegram Bot API\033[0m — \033[4m$BOT_TOKEN\033[0m,\n"              \
-    "\t\033[1mпуть к базе данных SQLite на хосте\033[0m — \033[4m$DB_PATH\033[0m.\n\n";
+echo -e                                                     \
+    "Полученные переменные окружения:\n"                    \
+    "\tтокен Telegram Bot API — $BOT_TOKEN,\n"              \
+    "\tпуть к базе данных бота — $BOT_DB_PATH,\n"           \
+    "\tпуть к базе данных организации — $ORG_DB_PATH.\n\n";
 
 
 # Сборка и запуск контейнера Docker
 docker build src                                        \
     --tag bot-telegram_zaboal-employment:latest;
 
-docker run                                              \
+docker run -it                                          \
     --env BOT_TOKEN=$BOT_TOKEN                          \
-    --volume $DB_PATH:/usr/src/app/dbase.db             \
+    --volume $BOT_DB_PATH:/usr/src/app/bot_db.sqlite    \
+    --volume $ORG_DB_PATH:/usr/src/app/org_db.sqlite    \
     bot-telegram_zaboal-employment:latest;
