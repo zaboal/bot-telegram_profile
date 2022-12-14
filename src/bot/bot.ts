@@ -1,3 +1,9 @@
+/*
+    Главный файл исходного кода бота
+*/
+
+
+// Подключение зависимостей
 import { Bot } from "grammy";
 const bot = new Bot(`${process.env.BOT_TOKEN}`);
 
@@ -20,29 +26,22 @@ bot.api.setMyDefaultAdministratorRights({rights,
 });
 
 
-// Подключение базы данных организации
+// Подключение базы данных организации в базу данных бота
 database.run(`ATTACH DATABASE "/usr/src/app/${process.env.ORG_DB_PATH}" AS org`);
 
 
 
-// Обработка команд бота
-bot.command("start",    ctx => {    // Команда начала диалога, подсказывает первые шаги
-    ctx.reply(
-        "Вы можете ознакомиться с тем как использовать данного бота по команде `/help`",
-        { parse_mode: "MarkdownV2" }
-    );
-});
-
-bot.command("help",     ctx => {    // Команда инструктирования
+// Обработка сообщений боту, в данном случае только команд
+bot.command(["start", "help"],  ctx => {    // Команда инструктирования
     ctx.reply(
         "Список команд доступен в сплывающем меню от знака «/» в поле ввода сообщения"
-        + "\\. Но если Вы ещё не зарегистрированы в системе, сделайте это в первую очередь в формате SQL по команде: "
+        + "\\. Но если Вы ещё не зарегистрированы в системе, сделайте это в первую очередь по команде "
         + "`/register [полное имя], [электропочта]`",
         { parse_mode: "MarkdownV2" },
     );
 });
 
-bot.command("register", ctx => {    // Команда регистрации в организации
+bot.command("register",         ctx => {    // Команда регистрации в организации
     // В ctx.match берутся аргументы команды /register и используются как данные вводимые в таблицу
     const command_arguments = ctx.match.split(", ")
     const name: string = command_arguments[0];
@@ -88,7 +87,44 @@ bot.command("register", ctx => {    // Команда регистрации в 
     });
 });
 
-bot.command("sqlite",   ctx => {    // Команда исследования баз данных (для разработчиков)
+bot.command("employ",           ctx => {    // Команда отклика на вакансию организации
+    database.get(`SELECT user_per_rowid FROM users WHERE user_id = ${ctx.msg.chat.id}`, (error, result) => {
+        if (result != undefined) {
+            database.run(`UPDATE vacancies SET vac_per_rowid = ${result.user_per_rowid} WHERE vac_per_rowid IS NULL, vacancies.rowid = ${ctx.match}`, (error) => {
+                if (error == null) {
+                    database.get(`SELECT ch_participation_uri FROM divisions JOIN channels, vacancies WHERE vac_per_rowid = ${result.user_per_rowid}`, (error, result) => {
+                        ctx.reply(
+                            "Успешно приняли вакансию"
+                            + `\\. Собеседование пройдёт [здесь](${result.ch_participation_uri})`,
+                            { parse_mode: "MarkdownV2" }
+                        );
+                    })
+                } else {
+                    database.get("SELECT vacancies.rowid, div_name, vac_okpdtr FROM vacancies JOIN divisions WHERE vac_per_rowid IS NULL", (error, result) => {
+                        console.log(result);
+                        if (result == undefined) {
+                            ctx.reply("Доступных вакансий нету");
+                        } else {
+                            ctx.reply(
+                                "Список вакансий можно видеть на сайте [site\\.zaboal\\.ru/vacancies](https://site\\.zaboal\\.ru/vacancies)"
+                                + "\\. Что бы откликнуться, используйте эту же команду в формате \`/employ [код вакансии]\`",
+                                { parse_mode: "MarkdownV2" }
+                            );
+                        }
+                    });
+                }
+            });
+        } else {
+            ctx.reply(
+                "Невозможно принять какую\\-либо вакансию, не зарегистрировавшись в системе"
+                + "\\. Используйте команду `/register`",
+                { parse_mode: "MarkdownV2" }
+            );
+        }
+    });
+});
+
+bot.command("sqlite",           ctx => {    // Команда исследования баз данных (для разработчиков)
     database.get(`${ctx.match}`, (err, row) => {
         if (err == null) {
             ctx.reply(
@@ -126,6 +162,7 @@ bot.start({
 
 
 
+// Обработка событий Process
 process.on("exit",      code => {
     console.log("Запущен протокол выхода…");
     bot.stop();
