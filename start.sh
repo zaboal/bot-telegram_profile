@@ -6,9 +6,9 @@ source environment.sh;
 
 echo -e                                                     \
     "Полученные переменные окружения:\n"                    \
-    "токен Telegram Bot API — $BOT_TOKEN,\n"              \
-    "путь к базе данных бота — $BOT_DB_PATH,\n"           \
-    "путь к базе данных организации — $ORG_DB_PATH.\n\n";
+    "токен Telegram Bot API — «$BOT_TOKEN»,\n"              \
+    "путь к базе данных бота — «$BOT_DB_PATH»,\n"           \
+    "путь к базе данных организации — «$ORG_DB_PATH».\n\n";
 
 
 # Сборка и запуск контейнера Docker
