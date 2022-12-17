@@ -4,7 +4,7 @@
 
 // Подключение зависимостей
 import { Bot } from "grammy";
-const bot = new Bot("bot.sqlite");
+const bot = new Bot(`${process.env.BOT_TOKEN}`);
 
 import { Database } from "sqlite3";
 const database = new Database("bot.sqlite");
@@ -25,8 +25,8 @@ bot.api.setMyDefaultAdministratorRights({rights,
 });
 
 
-// Подключение базы данных организации в базу данных бота
-database.run(`ATTACH DATABASE "/usr/src/app/organization.sqlite" AS organization`);
+// Подключение базы данных организации к базе данных бота
+database.run("ATTACH DATABASE \"organization.sqlite\" AS organization");
 
 
 
