@@ -2,13 +2,12 @@
     Главный файл исходного кода бота
 */
 
-
 // Подключение зависимостей
 import { Bot } from "grammy";
-const bot = new Bot(`${process.env.BOT_TOKEN}`);
+const bot = new Bot("bot.sqlite");
 
 import { Database } from "sqlite3";
-const database = new Database(`${process.env.BOT_DB_PATH}`);
+const database = new Database("bot.sqlite");
 
 
 
@@ -27,16 +26,14 @@ bot.api.setMyDefaultAdministratorRights({rights,
 
 
 // Подключение базы данных организации в базу данных бота
-database.run(`ATTACH DATABASE "/usr/src/app/${process.env.ORG_DB_PATH}" AS org`);
+database.run(`ATTACH DATABASE "/usr/src/app/organization.sqlite" AS organization`);
 
 
 
 // Обработка сообщений боту, в данном случае только команд
 bot.command(["start", "help"],  ctx => {    // Команда инструктирования
     ctx.reply(
-        "Список команд доступен в сплывающем меню от знака «/» в поле ввода сообщения"
-        + "\\. Но если Вы ещё не зарегистрированы в системе, сделайте это в первую очередь по команде "
-        + "`/register [полное имя], [электропочта]`",
+        "Команды бота доступны в сплывающем меню от знака «`/`» в поле ввода сообщения",
         { parse_mode: "MarkdownV2" },
     );
 });
@@ -51,7 +48,8 @@ bot.command("register",         ctx => {    // Команда регистрац
         if (result == undefined) {
             if (ctx.match == "") {
                 ctx.reply(
-                    "Данная команда требует аргументы, через запятую: `[полное имя]` и `[электро@поч.та]`",
+                    "Данная команда требует аргументы, через запятую: полное имя и личную электронную почту"
+                    + "\\. Например, разработчик бота зарегистрировался так: «`/register Зажигин Богдан Алексеевич, za\\.boal@vk\\.com`»",
                     { parse_mode: "MarkdownV2" }
                 );
             } else {
@@ -63,16 +61,14 @@ bot.command("register",         ctx => {    // Команда регистрац
                                 database.run(`INSERT INTO users VALUES ("${select.rowid}", "${ctx.msg.chat.id}")`);
                             } else {
                                 ctx.reply(
-                                    `Регистрация не удалась, SQLite сообщает об ошибке: «\`${error}\`»`
-                                    + "\\. [Богдан](tg://user?id=987595197) может Вам её разъяснить и помочь с решением",
+                                    `Регистрация не удалась, SQLite сообщает об ошибке: «\`${error}\`»`,
                                     { parse_mode: "MarkdownV2" }
                                 );
                             }
                         });
                     } else {
                         ctx.reply(
-                            `Регистрация не удалась, SQLite сообщает об ошибке: «\`${error}\`»`
-                            + "\\. [Богдан](tg://user?id=987595197) может Вам её разъяснить и помочь с решением",
+                            `Регистрация не удалась, SQLite сообщает об ошибке: «\`${error}\`»`,
                             { parse_mode: "MarkdownV2" }
                         );
                     }
@@ -87,53 +83,16 @@ bot.command("register",         ctx => {    // Команда регистрац
     });
 });
 
-bot.command("employ",           ctx => {    // Команда отклика на вакансию организации
-    database.get(`SELECT user_per_rowid FROM users WHERE user_id = ${ctx.msg.chat.id}`, (error, result) => {
-        if (result != undefined) {
-            database.run(`UPDATE vacancies SET vac_per_rowid = ${result.user_per_rowid} WHERE vac_per_rowid IS NULL, vacancies.rowid = ${ctx.match}`, (error) => {
-                if (error == null) {
-                    database.get(`SELECT ch_participation_uri FROM divisions JOIN channels, vacancies WHERE vac_per_rowid = ${result.user_per_rowid}`, (error, result) => {
-                        ctx.reply(
-                            "Успешно приняли вакансию"
-                            + `\\. Собеседование пройдёт [здесь](${result.ch_participation_uri})`,
-                            { parse_mode: "MarkdownV2" }
-                        );
-                    })
-                } else {
-                    database.get("SELECT vacancies.rowid, div_name, vac_okpdtr FROM vacancies JOIN divisions WHERE vac_per_rowid IS NULL", (error, result) => {
-                        console.log(result);
-                        if (result == undefined) {
-                            ctx.reply("Доступных вакансий нету");
-                        } else {
-                            ctx.reply(
-                                "Список вакансий можно видеть на сайте [site\\.zaboal\\.ru/vacancies](https://site\\.zaboal\\.ru/vacancies)"
-                                + "\\. Что бы откликнуться, используйте эту же команду в формате \`/employ [код вакансии]\`",
-                                { parse_mode: "MarkdownV2" }
-                            );
-                        }
-                    });
-                }
-            });
-        } else {
+bot.command("sqlite",           ctx => {    // Команда работы с базами данных
+    database.get(`${ctx.match}`, (error, result) => {
+        if (error == null) {
             ctx.reply(
-                "Невозможно принять какую\\-либо вакансию, не зарегистрировавшись в системе"
-                + "\\. Используйте команду `/register`",
-                { parse_mode: "MarkdownV2" }
-            );
-        }
-    });
-});
-
-bot.command("sqlite",           ctx => {    // Команда исследования баз данных (для разработчиков)
-    database.get(`${ctx.match}`, (err, row) => {
-        if (err == null) {
-            ctx.reply(
-                "`" + ((row == undefined) ? "Ничего не найдено" : JSON.stringify(row)) + "`",
+                "`" + ((result == undefined) ? "Ничего не найдено" : JSON.stringify(result)) + "`",
                 { parse_mode: "MarkdownV2" }
             );
         } else {
             ctx.reply(
-                "`" + JSON.stringify(err) + "`",
+                "`" + JSON.stringify(error) + "`",
                 { parse_mode: "MarkdownV2" }
             );
         }
@@ -150,8 +109,8 @@ bot.start({
     onStart:                bot => {
         console.log(
             `Бот запущен как «${bot.first_name}»`
-            + ` под именем пользователя @${bot.username}`
-            + ` с идентификатором ${bot.id}.`,
+            + ` c именем пользователя @${bot.username}`
+            + ` под идентификатором ${bot.id}.`,
             (bot.can_join_groups                == true) ? "Он может присоединяться к группам," : "Он не может присоединяться к группам,",
             (bot.can_read_all_group_messages    == true) ? "читает сообщения в которых уже есть;" : "не читает сообщения в них;",
             (bot.supports_inline_queries        == true) ? "поддерживает инлайн-режим." : "не поддерживает инлайн-режим."

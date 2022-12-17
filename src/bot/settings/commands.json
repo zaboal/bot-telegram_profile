@@ -1,10 +1,6 @@
 [
     {
         "command": "register",
-        "description": "регистрация в организации"
-    },
-    {
-        "command": "employ",
-        "description": "собеседование по вакансии"
+        "description": "регистрация"
     }
 ]

@@ -17,10 +17,6 @@ ADD bot bot
 # Объявление переменных окружения
 ARG BOT_TOKEN
 
-# Имена подключаемых баз данных внутри контейнера
-ENV BOT_DB_PATH="bot_db.sqlite"
-ENV ORG_DB_PATH="org_db.sqlite"
-
 
 # Запуск контейнера
 CMD npm run start
