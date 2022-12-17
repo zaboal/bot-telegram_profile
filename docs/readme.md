@@ -1,4 +1,4 @@
-# Бот в Telegram для управления Личным кабинетом в ИТ-студии Зажигина
+# Бот в Telegram для регистрации
 
 Бот описан в [`src/bot/bot.ts`](../src/index.ts) на [TypeScript](https://www.typescriptlang.org/docs "Документация TypeScript") с помощью фреймворка [Grammy](https://grammy.dev/guide "Документация Grammy") над [Telegram Bot API](https://core.telegram.org/bots/api "Документация Telegram Bot API"). Предназначен для запуска в контейнере [Docker](https://docs.docker.com/reference "Документация Docker") через [NodeJS](https://nodejs.org/api/ "Документация NodeJS"), файл сборки можно видеть под названием [`src/dockerfile`](../src/dockerfile). Главный метод запуска проекта — через файл [Bash](https://www.gnu.org/software/bash/manual/bash.html "Документация Bash") скрипта [`start.sh`](../start.sh) от имени администратора.
 
