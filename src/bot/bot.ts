@@ -1,6 +1,4 @@
-/*
-    Главный файл исходного кода бота
-*/
+// Главный файл исходного кода бота
 
 // Подключение зависимостей
 import { Bot } from "grammy";
@@ -82,22 +80,6 @@ bot.command("register",         ctx => {    // Команда регистрац
         }
     });
 });
-
-bot.command("sqlite",           ctx => {    // Команда работы с базами данных
-    database.get(`${ctx.match}`, (error, result) => {
-        if (error == null) {
-            ctx.reply(
-                "`" + ((result == undefined) ? "Ничего не найдено" : JSON.stringify(result)) + "`",
-                { parse_mode: "MarkdownV2" }
-            );
-        } else {
-            ctx.reply(
-                "`" + JSON.stringify(error) + "`",
-                { parse_mode: "MarkdownV2" }
-            );
-        }
-    });
-})
 
 
 // Запуск бота
