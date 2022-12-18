@@ -2,4 +2,4 @@
 
 Бот описан в [`src/bot/bot.ts`](../src/index.ts) на TypeScript с помощью фреймворка Grammy над Telegram Bot API. Предназначен для запуска в контейнере Docker через NodeJS, файл сборки можно видеть под названием [`src/dockerfile`](../src/dockerfile). Главный метод запуска проекта — через файл Bash скрипта [`start.sh`](../start.sh), руководство по запуску описано в [`docs/start.md`](start.md).
 
-Официально запускается от имени [@emp_zaboal_bot](tg://resolve?domain=emp_zaboal_bot) для [«Студии Зажигина»](https://site.zaboal.ru).
+Официально запускается от имени [@emp_zaboal_bot](https://t.me/emp_zaboal_bot) для [«Студии Зажигина»](https://site.zaboal.ru).
