@@ -1,7 +1,7 @@
 # Скрипт запуска проекта
 # Процедура запуска проекта подробно описана в docs/start.md.
 
-# Получение необходимых переменных окружения и вывод их в консоль
+# Получение необходимых переменных среды и вывод их в консоль
 source environment.sh;
 
 echo -e                                                     \
@@ -12,11 +12,11 @@ echo -e                                                     \
 
 
 # Сборка и запуск контейнера Docker
-docker build src                                            \
-    --tag bot-telegram_zaboal-register:latest;
+docker build .                                              \
+    --tag bot-telegram_zaboal-register;
 
 docker run -it                                              \
     --env BOT_TOKEN=$BOT_TOKEN                              \
     --volume $BOT_DB_PATH:/usr/src/app/bot.sqlite           \
     --volume $ORG_DB_PATH:/usr/src/app/organization.sqlite  \
-    bot-telegram_zaboal-register:latest;
+    bot-telegram_zaboal-register;

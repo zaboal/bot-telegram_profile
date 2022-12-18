@@ -1,17 +1,16 @@
 # Файл сборки Docker контейнера проекта
 
 # Установка образа и рабочей директории
-FROM node:lts-buster-slim
+FROM node:latest
 WORKDIR /usr/src/app
 
 
 # Установка зависимостей
-COPY package.json .
+COPY src/package.json .
 RUN npm install
 
 # Добавление оставшихся файлов проекта
-COPY tsconfig.json .
-ADD bot bot
+COPY src .
 
 
 # Объявление переменных окружения
