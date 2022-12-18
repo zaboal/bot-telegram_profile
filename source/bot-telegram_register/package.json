@@ -1,12 +1,12 @@
 {
-    "scripts": {
-        "start": "ts-node bot/bot.ts"
-    },
     "dependencies": {
         "grammy": "latest",
         "sqlite3": "latest"
     },
     "devDependencies": {
         "ts-node": "latest"
+    },
+    "scripts": {
+        "start": "ts-node bot.ts"
     }
 }
