@@ -105,7 +105,7 @@ bot.start({
 
 // Обработка событий Process
 process.on("exit",      code => {
-    console.log("Запущен протокол выхода…");
+    console.log(`Запущен протокол выхода под кодом ${code}…`);
     bot.stop();
 });
 
