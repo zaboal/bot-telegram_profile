@@ -13,10 +13,10 @@ echo -e                                                     \
 
 # Сборка и запуск контейнера Docker
 docker build .                                              \
-    --tag bot-telegram_zaboal-register;
+    --tag bot-telegram_profile;
 
 docker run -it                                              \
     --env BOT_TOKEN=$BOT_TOKEN                              \
     --volume $BOT_DB_PATH:/usr/src/app/bot.sqlite           \
     --volume $ORG_DB_PATH:/usr/src/app/organization.sqlite  \
-    bot-telegram_zaboal-register;
+    bot-telegram_profile;
