@@ -1,10 +1,9 @@
 # Бот в Telegram для регистрации в организации
 
-Бот описан в [[source-directory]`/bot/bot.ts`](../source/bot-telegram_register/bot.ts) на TypeScript с помощью фреймворка Grammy над Telegram Bot API. Предназначен для запуска в контейнере Docker через NodeJS, файл сборки образа можно видеть под названием [`src/dockerfile`](../source/dockerfile). Главный метод запуска проекта — через файл Bash скрипта [`start.sh`](../source/start.sh).
+Бот описан в [`src/bot/bot.ts`](../source/bot-telegram_register/bot.ts) на TypeScript с помощью фреймворка Grammy над Telegram Bot API. Предназначен для запуска в контейнере Docker через NodeJS, файл сборки образа можно видеть под названием [`src/dockerfile`](../source/dockerfile). Главный метод запуска проекта — через файл Bash скрипта [`start.sh`](../source/start.sh).
 
 Официально запускается под доменом [@zaboal_profile_bot](https://t.me/zaboal_profile_bot).
 
-[source-directory]: `source`
 
 ## Переменные бота
 
@@ -30,6 +29,7 @@
 * [`default_administrator_rights.json`](../src/bot/settings/default_administrator_rights.json) — предлагаемый набор прав администратора бота при добавлении в группу.
 
 Эти настройки формируются согласно изменениям кода самого бота. Изменять их рекомендуются только разработчикам, внёсшим изменения.
+
 
 ## Запуск бота
 
