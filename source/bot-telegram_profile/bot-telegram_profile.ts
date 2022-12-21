@@ -26,6 +26,14 @@ bot.api.setMyDefaultAdministratorRights({rights,
 // Подключение базы данных организации к базе данных бота
 database.run("ATTACH DATABASE \"organization.sqlite\" AS organization");
 
+// Определение схемы базы данных бота
+database.run(`
+CREATE TABLE users (
+    user_per_rowid  INT NOT NULL
+                    REFERENCES people (rowid),
+    user_id         INT NOT NULL
+);`)
+
 
 
 // Обработка сообщений боту, в данном случае только команд
