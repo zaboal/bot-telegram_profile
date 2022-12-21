@@ -1,13 +1,25 @@
 // Главный файл исходного кода бота
 
 // Подключение зависимостей
-import { Bot } from "grammy";
-const bot = new Bot(`${process.env.BOT_TOKEN}`);
-
 import { Database } from "sqlite3";
 const database = new Database("bot.sqlite");
 
+import { Bot } from "grammy";
+const bot = new Bot(`${process.env.BOT_TOKEN}`);
 
+
+
+
+// Подключение базы данных организации к базе данных бота
+database.run("ATTACH DATABASE \"organization.sqlite\" AS organization");
+
+// Определение схемы базы данных бота
+database.run(`
+CREATE TABLE users (
+    user_per_rowid  INT NOT NULL
+                    REFERENCES people (rowid),
+    user_id         INT NOT NULL
+);`)
 
 
 // Применение настроек из директории «settings»
@@ -21,18 +33,6 @@ import rights from "./settings/default_administrator_rights.json";
 bot.api.setMyDefaultAdministratorRights({rights,
     for_channels: false
 });
-
-
-// Подключение базы данных организации к базе данных бота
-database.run("ATTACH DATABASE \"organization.sqlite\" AS organization");
-
-// Определение схемы базы данных бота
-database.run(`
-CREATE TABLE users (
-    user_per_rowid  INT NOT NULL
-                    REFERENCES people (rowid),
-    user_id         INT NOT NULL
-);`)
 
 
 
